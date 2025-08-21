@@ -1,0 +1,35 @@
+function doPost(e) {
+  try {
+    // Abrir a planilha (substitua pelo ID da sua planilha)
+    const sheet = SpreadsheetApp.getActiveSheet();
+    
+    // Pegar os dados enviados
+    const data = JSON.parse(e.postData.contents);
+    
+    // Adicionar nova linha com os dados
+    sheet.appendRow([
+      new Date(), // Data/Hora atual
+      data.nome,
+      data.email,
+      data.documento,
+      data.telefone,
+      data.cep,
+      data.estado,
+      data.cidade,
+      data.bairro,
+      data.rua,
+      data.numero,
+      data.complemento,
+      data.endereco_completo
+    ]);
+    
+    return ContentService
+      .createTextOutput(JSON.stringify({success: true}))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({success: false, error: error.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
